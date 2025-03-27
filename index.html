@@ -389,21 +389,73 @@
             });
         });
         
-        // Basic calculator functionality (simulate only)
+        // Advanced calculator functionality with realistic factors
         const calculateBtn = document.querySelector('.calculator-form .btn');
         
         if (calculateBtn) {
             calculateBtn.addEventListener('click', () => {
                 const resultValue = document.querySelector('.result-value');
+                const resultLabel = document.querySelector('.result-label');
                 const buildingType = document.getElementById('building-type').value;
-                const area = document.getElementById('area').value;
-                const currentBill = document.getElementById('current-bill').value;
+                const area = parseFloat(document.getElementById('area').value);
+                const currentBill = parseFloat(document.getElementById('current-bill').value);
                 const solution = document.getElementById('solution').value;
                 
-                // Simple simulation (would be more complex in real implementation)
                 if (buildingType && area > 0 && currentBill > 0 && solution) {
-                    let saving = Math.round(currentBill * 0.3 * 12);
-                    resultValue.textContent = '$' + saving.toLocaleString();
+                    // Factores de ahorro por tipo de edificación (%)
+                    const buildingFactors = {
+                        'home': 0.25,      // 25% para residencial
+                        'office': 0.30,    // 30% para oficinas
+                        'retail': 0.35,    // 35% para comercios
+                        'industrial': 0.40 // 40% para industrial
+                    };
+                    
+                    // Factores de ahorro por solución (%)
+                    const solutionFactors = {
+                        'solar': 0.40,      // 40% para energía solar
+                        'lighting': 0.25,   // 25% para iluminación LED
+                        'hvac': 0.30,       // 30% para climatización
+                        'complete': 0.45    // 45% para solución integral
+                    };
+                    
+                    // Factor de escala según superficie (mayor área = mayor eficiencia)
+                    let scaleFactorArea = 1;
+                    if (area > 500) scaleFactorArea = 1.1;      // +10% eficiencia
+                    if (area > 1000) scaleFactorArea = 1.15;    // +15% eficiencia
+                    if (area > 5000) scaleFactorArea = 1.2;     // +20% eficiencia
+                    
+                    // Cálculo de ahorro combinando factores
+                    const baseSavingRate = (buildingFactors[buildingType] + solutionFactors[solution]) / 2;
+                    const adjustedSavingRate = baseSavingRate * scaleFactorArea;
+                    
+                    // Limitar la tasa de ahorro máxima al 60%
+                    const finalSavingRate = Math.min(adjustedSavingRate, 0.6);
+                    
+                    // Calcular ahorro anual
+                    const annualSaving = Math.round(currentBill * finalSavingRate * 12);
+                    
+                    // Mostrar resultado
+                    resultValue.textContent = '
+</body>
+</html> + annualSaving.toLocaleString();
+                    
+                    // Calcular estimación de retorno de inversión basado en tipo de solución
+                    const investmentEstimates = {
+                        'solar': 230000 * Math.sqrt(area/100),        // Base 230.000 para 100m²
+                        'lighting': 120000 * Math.sqrt(area/100),     // Base 120.000 para 100m²
+                        'hvac': 180000 * Math.sqrt(area/100),         // Base 180.000 para 100m²
+                        'complete': 450000 * Math.sqrt(area/100)      // Base 450.000 para 100m²
+                    };
+                    
+                    const investmentEstimate = Math.round(investmentEstimates[solution]);
+                    const roiMonths = Math.ceil(investmentEstimate / (annualSaving / 12));
+                    
+                    // Actualizar etiqueta con ROI
+                    resultLabel.innerHTML = `Ahorro anual estimado<br><span style="font-size:14px;color:#666;">Recuperación en aproximadamente ${roiMonths} meses</span>`;
+                } else {
+                    // Si no se completaron todos los campos
+                    resultValue.textContent = '$0';
+                    resultLabel.textContent = 'Complete todos los campos';
                 }
             });
         }
