@@ -33,9 +33,17 @@ if (!isset($_FILES['pdfFile']) || $_FILES['pdfFile']['error'] !== UPLOAD_ERR_OK)
 $customerName = $_POST['customerName'];
 $customerEmail = $_POST['customerEmail'];
 $customerAddress = $_POST['customerAddress'] ?? 'No especificada';
+$lat = $_POST['lat'] ?? '';
+$lng = $_POST['lng'] ?? '';
 $solution = $_POST['solution'] ?? 'No especificada';
 $housingType = $_POST['housingType'] ?? 'No especificado';
 $companyEmail = $_POST['companyEmail'];
+
+// Generar enlace a Google Maps si tenemos coordenadas
+$mapLink = '';
+if (!empty($lat) && !empty($lng)) {
+    $mapLink = "https://www.google.com/maps?q={$lat},{$lng}";
+}
 
 // Datos del archivo
 $pdfFile = $_FILES['pdfFile']['tmp_name'];
@@ -68,6 +76,26 @@ try {
     $mail->isHTML(true);
     $mail->Subject = 'Cotización Impulso Verde - ' . $solution;
     
+    // Crear la tabla de ubicación con enlace al mapa
+    $locationHtml = '';
+    if (!empty($mapLink)) {
+        $locationHtml = "
+            <tr>
+                <th>Ubicación en mapa</th>
+                <td><a href=\"{$mapLink}\" target=\"_blank\">Ver ubicación en Google Maps</a></td>
+            </tr>
+            <tr>
+                <th>Coordenadas</th>
+                <td>Latitud: {$lat}, Longitud: {$lng}</td>
+            </tr>
+        ";
+        $locationText = "
+- Ubicación en mapa: {$mapLink}
+- Coordenadas: Latitud: {$lat}, Longitud: {$lng}";
+    } else {
+        $locationText = "";
+    }
+    
     // Cuerpo del correo HTML
     $mail->Body = "
     <html>
@@ -82,6 +110,8 @@ try {
             table { width: 100%; border-collapse: collapse; margin: 15px 0; }
             th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
             th { background-color: #f4f4f4; }
+            .map-container { margin: 20px 0; text-align: center; }
+            .map-container img { max-width: 100%; height: auto; border-radius: 5px; }
         </style>
     </head>
     <body>
@@ -103,6 +133,7 @@ try {
                         <th>Dirección</th>
                         <td>$customerAddress</td>
                     </tr>
+                    $locationHtml
                     <tr>
                         <th>Solución</th>
                         <td>$solution</td>
@@ -143,6 +174,7 @@ try {
     Información de la Cotización:
     - Nombre: $customerName
     - Dirección: $customerAddress
+    $locationText
     - Solución: $solution
     - Tipo de Vivienda: $housingType
     

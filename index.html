@@ -10,6 +10,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 </head>
 
 <body>
@@ -86,6 +88,8 @@
                             <div class="step" data-step="6">6</div>
                             <div class="step-line"></div>
                             <div class="step" data-step="7">7</div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="8">8</div>
                         </div>
                     </div>
 
@@ -163,12 +167,29 @@
                             </div>
                             <div class="form-navigation">
                                 <button type="button" class="btn btn-prev">Anterior</button>
-                                <button type="button" class="btn btn-next">Siguiente</button>
+                                <button type="button" class="btn btn-next" id="step5-next">Siguiente</button>
                             </div>
                         </div>
 
-                        <!-- Step 6: Suministro eléctrico -->
+                        <!-- Step 6: Confirmar ubicación en el mapa -->
                         <div class="form-step" data-step="6">
+                            <div class="form-group">
+                                <label for="map">Confirma tu ubicación</label>
+                                <p class="map-instructions">Por favor, verifica que el pin se encuentra en la ubicación correcta. Si es necesario, puedes ajustar el pin arrastrándolo a la posición exacta.</p>
+                                <div id="map-container">
+                                    <div id="map"></div>
+                                </div>
+                                <input type="hidden" id="lat" name="lat">
+                                <input type="hidden" id="lng" name="lng">
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-prev">Anterior</button>
+                                <button type="button" class="btn btn-next" id="step6-next">Confirmar ubicación</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 7: Suministro eléctrico -->
+                        <div class="form-step" data-step="7">
                             <div class="form-group">
                                 <label for="has-electricity">¿Cuentas con suministro eléctrico?</label>
                                 <select class="form-control" id="has-electricity" name="has-electricity" required>
@@ -179,12 +200,12 @@
                             </div>
                             <div class="form-navigation">
                                 <button type="button" class="btn btn-prev">Anterior</button>
-                                <button type="button" class="btn btn-next" id="step6-next">Siguiente</button>
+                                <button type="button" class="btn btn-next" id="step7-next">Siguiente</button>
                             </div>
                         </div>
 
-                        <!-- Step 7: Monto mensual de la boleta -->
-                        <div class="form-step" data-step="7">
+                        <!-- Step 8: Monto mensual de la boleta -->
+                        <div class="form-step" data-step="8">
                             <div class="form-group" id="monthly-bill-group">
                                 <label for="monthly-bill">Monto mensual de la boleta de luz</label>
                                 <input type="number" class="form-control" id="monthly-bill" name="monthly-bill"
@@ -565,6 +586,11 @@
             });
         });
         
+        // Variables globales para el mapa
+        let map;
+        let marker;
+        let geocoder;
+        
         // Quote Form Functionality
         document.addEventListener('DOMContentLoaded', function() {
             const quoteBtn = document.getElementById('quote-btn');
@@ -578,11 +604,15 @@
             const deptMessage = document.getElementById('dept-message');
             const step2Next = document.getElementById('step2-next');
             const hasElectricity = document.getElementById('has-electricity');
-            const step6Next = document.getElementById('step6-next');
+            const step7Next = document.getElementById('step7-next');
             const monthlyBillGroup = document.getElementById('monthly-bill-group');
             const monthlyBill = document.getElementById('monthly-bill');
             const errorMessage = document.getElementById('error-message');
             const successMessage = document.getElementById('success-message');
+            const addressInput = document.getElementById('address');
+            const step5Next = document.getElementById('step5-next');
+            const latInput = document.getElementById('lat');
+            const lngInput = document.getElementById('lng');
     
             // Show quote form when button is clicked
             quoteBtn.addEventListener('click', () => {
@@ -591,6 +621,91 @@
                     top: quoteForm.offsetTop - 80,
                     behavior: 'smooth'
                 });
+            });
+            
+            // Inicializar el geocoder
+            geocoder = new google.maps.Geocoder();
+            
+            // Función para inicializar el mapa
+            function initMap(lat = -33.447487, lng = -70.673676) { // Santiago, Chile como ubicación por defecto
+                const mapOptions = {
+                    center: { lat, lng },
+                    zoom: 15,
+                    mapTypeControl: false,
+                    streetViewControl: false
+                };
+                
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                
+                marker = new google.maps.Marker({
+                    position: { lat, lng },
+                    map: map,
+                    draggable: true,
+                    animation: google.maps.Animation.DROP,
+                    title: 'Tu ubicación'
+                });
+                
+                // Actualizar coordenadas cuando se arrastra el marcador
+                google.maps.event.addListener(marker, 'dragend', function() {
+                    const position = marker.getPosition();
+                    latInput.value = position.lat();
+                    lngInput.value = position.lng();
+                    
+                    // Actualizar dirección con geocodificación inversa
+                    geocoder.geocode({ 'location': position }, function(results, status) {
+                        if (status === 'OK' && results[0]) {
+                            addressInput.value = results[0].formatted_address;
+                        }
+                    });
+                });
+            }
+            
+            // Geocodificar dirección y mostrar en el mapa
+            function geocodeAddress() {
+                const address = addressInput.value;
+                
+                if (!address) {
+                    showError('Por favor, ingresa una dirección válida');
+                    return false;
+                }
+                
+                geocoder.geocode({ 'address': address + ', Chile' }, function(results, status) {
+                    if (status === 'OK' && results[0]) {
+                        const position = results[0].geometry.location;
+                        const lat = position.lat();
+                        const lng = position.lng();
+                        
+                        // Actualizar campos ocultos con las coordenadas
+                        latInput.value = lat;
+                        lngInput.value = lng;
+                        
+                        // Inicializar mapa con las coordenadas obtenidas
+                        if (map) {
+                            map.setCenter(position);
+                            marker.setPosition(position);
+                        } else {
+                            initMap(lat, lng);
+                        }
+                        
+                        return true;
+                    } else {
+                        showError('No se pudo encontrar la ubicación. Por favor, verifica la dirección');
+                        return false;
+                    }
+                });
+            }
+            
+            // Inicializar el mapa cuando pasamos al paso 6
+            step5Next.addEventListener('click', function() {
+                if (validateStep(5)) {
+                    setTimeout(function() {
+                        if (!map) {
+                            geocodeAddress();
+                        } else {
+                            google.maps.event.trigger(map, 'resize');
+                        }
+                    }, 300);
+                }
             });
     
             // Handle step navigation
@@ -617,6 +732,16 @@
                     const currentStep = parseInt(btn.closest('.form-step').dataset.step);
                     showStep(currentStep - 1);
                     updateStepIndicator(currentStep - 1);
+                    
+                    // Si volvemos al paso del mapa, aseguramos que se redibuje correctamente
+                    if (currentStep - 1 === 6 && map) {
+                        setTimeout(function() {
+                            google.maps.event.trigger(map, 'resize');
+                            if (marker && marker.getPosition()) {
+                                map.setCenter(marker.getPosition());
+                            }
+                        }, 300);
+                    }
                 });
             });
     
@@ -631,7 +756,7 @@
                 }
             });
     
-            // Handle electricity selection on step 6
+            // Handle electricity selection on step 7
             hasElectricity.addEventListener('change', function() {
                 if (this.value === 'si') {
                     monthlyBillGroup.style.display = 'block';
@@ -646,7 +771,7 @@
             // Handle form submission
             quoteFormElement.addEventListener('submit', function(e) {
                 e.preventDefault();
-                if (validateStep(7)) {
+                if (validateStep(8)) {
                     generateQuote();
                 }
             });
@@ -719,21 +844,27 @@
                         return true;
                     
                     case 5:
-                        const address = document.getElementById('address');
-                        if (!address.value.trim()) {
+                        if (!addressInput.value.trim()) {
                             showError('Por favor, ingresa tu dirección');
                             return false;
                         }
                         return true;
                     
                     case 6:
+                        if (!latInput.value || !lngInput.value) {
+                            showError('Por favor, confirma la ubicación en el mapa');
+                            return false;
+                        }
+                        return true;
+                    
+                    case 7:
                         if (!hasElectricity.value) {
                             showError('Por favor, indica si cuentas con suministro eléctrico');
                             return false;
                         }
                         return true;
                     
-                    case 7:
+                    case 8:
                         if (hasElectricity.value === 'si' && (!monthlyBill.value || monthlyBill.value <= 0)) {
                             showError('Por favor, ingresa el monto mensual de tu boleta de luz');
                             return false;
@@ -764,6 +895,8 @@
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
                     address: document.getElementById('address').value,
+                    lat: document.getElementById('lat').value,
+                    lng: document.getElementById('lng').value,
                     hasElectricity: document.getElementById('has-electricity').value,
                     monthlyBill: document.getElementById('monthly-bill').value || 0
                 };
@@ -840,7 +973,7 @@
                     document.getElementById('generation-value').textContent = 'N/A';
                 }
                 
-                document.getElementById('saving-value').textContent = '$' + formatter.format(savingPerYear);
+                document.getElementById('saving-value').textContent = ' + formatter.format(savingPerYear);
                 document.getElementById('roi-value').textContent = roi + ' Años';
                 document.getElementById('co2-value').textContent = co2Reduction + ' ton CO2 / año';
                 
@@ -901,6 +1034,8 @@
                 emailData.append('customerName', formData.name);
                 emailData.append('customerEmail', formData.email);
                 emailData.append('customerAddress', formData.address);
+                emailData.append('lat', formData.lat);
+                emailData.append('lng', formData.lng);
                 emailData.append('solution', formData.solution === 'fotovoltaico' ? 'Energía Fotovoltaica' : 'Bomba de Calor');
                 emailData.append('housingType', formData.housingType === 'casa' ? 'Casa' : 'Departamento');
                 emailData.append('companyEmail', 'matias.puentes@impulsoverde.cl');
@@ -928,75 +1063,6 @@
                 });
             }
         });
-        
-        // Calculadora de ahorro - esta es la parte donde estaba el error
-        const calculateBtn = document.querySelector('.calculator-form .btn');
-        
-        if (calculateBtn) {
-            calculateBtn.addEventListener('click', () => {
-                const resultValue = document.querySelector('.result-value');
-                const resultLabel = document.querySelector('.result-label');
-                const buildingType = document.getElementById('building-type').value;
-                const area = parseFloat(document.getElementById('area').value);
-                const currentBill = parseFloat(document.getElementById('current-bill').value);
-                const solution = document.getElementById('solution').value;
-                
-                if (buildingType && area > 0 && currentBill > 0 && solution) {
-                    // Factores de ahorro por tipo de edificación (%)
-                    const buildingFactors = {
-                        'home': 0.25,      // 25% para residencial
-                        'office': 0.30,    // 30% para oficinas
-                        'retail': 0.35,    // 35% para comercios
-                        'industrial': 0.40 // 40% para industrial
-                    };
-                    
-                    // Factores de ahorro por solución (%)
-                    const solutionFactors = {
-                        'solar': 0.40,      // 40% para energía solar
-                        'lighting': 0.25,   // 25% para iluminación LED
-                        'hvac': 0.30,       // 30% para climatización
-                        'complete': 0.45    // 45% para solución integral
-                    };
-                    
-                    // Factor de escala según superficie (mayor área = mayor eficiencia)
-                    let scaleFactorArea = 1;
-                    if (area > 500) scaleFactorArea = 1.1;      // +10% eficiencia
-                    if (area > 1000) scaleFactorArea = 1.15;    // +15% eficiencia
-                    if (area > 5000) scaleFactorArea = 1.2;     // +20% eficiencia
-                    
-                    // Cálculo de ahorro combinando factores
-                    const baseSavingRate = (buildingFactors[buildingType] + solutionFactors[solution]) / 2;
-                    const adjustedSavingRate = baseSavingRate * scaleFactorArea;
-                    
-                    // Limitar la tasa de ahorro máxima al 60%
-                    const finalSavingRate = Math.min(adjustedSavingRate, 0.6);
-                    
-                    // Calcular ahorro anual
-                    const annualSaving = Math.round(currentBill * finalSavingRate * 12);
-                    
-                    // AQUÍ ESTABA EL ERROR - LÍNEA CORREGIDA
-                    resultValue.textContent = "$" + annualSaving.toLocaleString();
-                    
-                    // Calcular estimación de retorno de inversión basado en tipo de solución
-                    const investmentEstimates = {
-                        'solar': 230000 * Math.sqrt(area/100),        // Base 230.000 para 100m²
-                        'lighting': 120000 * Math.sqrt(area/100),     // Base 120.000 para 100m²
-                        'hvac': 180000 * Math.sqrt(area/100),         // Base 180.000 para 100m²
-                        'complete': 450000 * Math.sqrt(area/100)      // Base 450.000 para 100m²
-                    };
-                    
-                    const investmentEstimate = Math.round(investmentEstimates[solution]);
-                    const roiMonths = Math.ceil(investmentEstimate / (annualSaving / 12));
-                    
-                    // Actualizar etiqueta con ROI
-                    resultLabel.innerHTML = `Ahorro anual estimado<br><span style="font-size:14px;color:#666;">Recuperación en aproximadamente ${roiMonths} meses</span>`;
-                } else {
-                    // Si no se completaron todos los campos
-                    resultValue.textContent = "$0";
-                    resultLabel.textContent = "Complete todos los campos";
-                }
-            });
-        }
     </script>
 </body>
 
