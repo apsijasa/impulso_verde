@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impulso Verde - Soluciones de Eficiencia Energética</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -38,7 +43,8 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h2>Soluciones de <span>Eficiencia Energética</span> para un futuro sostenible</h2>
-                    <p>Optimizamos el consumo energético de tu hogar o empresa, reduciendo costos y el impacto ambiental con soluciones personalizadas y tecnología de vanguardia.</p>
+                    <p>Optimizamos el consumo energético de tu hogar o empresa, reduciendo costos y el impacto ambiental
+                        con soluciones personalizadas y tecnología de vanguardia.</p>
                     <div class="hero-buttons">
                         <a href="#servicios" class="btn">Nuestros Servicios</a>
                         <a href="#contacto" class="btn btn-outline">Contáctanos</a>
@@ -46,6 +52,150 @@
                 </div>
                 <div class="hero-image">
                     <img src="/api/placeholder/600/400" alt="Eficiencia Energética">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Button -->
+    <div class="quote-button-container">
+        <button class="btn btn-quote" id="quote-btn">Solicitar Cotización</button>
+    </div>
+
+    <!-- Quote Form Section -->
+    <section id="quote-form" class="quote-form-section">
+        <div class="container">
+            <div class="quote-form-container">
+                <div class="quote-form-header">
+                    <h2>Cotización Personalizada</h2>
+                    <p>Complete el formulario para recibir una cotización adaptada a sus necesidades</p>
+                </div>
+                <div class="quote-form-content">
+                    <div class="step-indicator-container">
+                        <div class="step-indicator">
+                            <div class="step active" data-step="1">1</div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="2">2</div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="3">3</div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="4">4</div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="5">5</div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="6">6</div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="7">7</div>
+                        </div>
+                    </div>
+
+                    <div id="error-message" class="message-box"></div>
+                    <div id="success-message" class="message-box success"></div>
+
+                    <form id="quote-form-element">
+                        <!-- Step 1: Seleccionar solución -->
+                        <div class="form-step active" data-step="1">
+                            <div class="form-group">
+                                <label for="solution">Selecciona tu solución</label>
+                                <select class="form-control" id="solution" name="solution" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="fotovoltaico">Energía Fotovoltaica</option>
+                                    <option value="bombacalor">Bomba de Calor</option>
+                                </select>
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-next">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Tipo de vivienda -->
+                        <div class="form-step" data-step="2">
+                            <div class="form-group">
+                                <label for="housing-type">Selecciona tu vivienda</label>
+                                <select class="form-control" id="housing-type" name="housing-type" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="casa">Casa</option>
+                                    <option value="departamento">Departamento</option>
+                                </select>
+                                <div id="dept-message" class="message-box" style="display: none; margin-top: 15px;">
+                                    Lo sentimos, no podemos realizar el servicio para departamentos porque la vivienda
+                                    no tiene techo propio.
+                                </div>
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-prev">Anterior</button>
+                                <button type="button" class="btn btn-next" id="step2-next">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Nombre -->
+                        <div class="form-step" data-step="3">
+                            <div class="form-group">
+                                <label for="name">Ingresa tu nombre</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Nombre completo" required>
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-prev">Anterior</button>
+                                <button type="button" class="btn btn-next">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Correo electrónico -->
+                        <div class="form-step" data-step="4">
+                            <div class="form-group">
+                                <label for="email">Ingresa tu correo electrónico</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="correo@ejemplo.com" required>
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-prev">Anterior</button>
+                                <button type="button" class="btn btn-next">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Dirección -->
+                        <div class="form-step" data-step="5">
+                            <div class="form-group">
+                                <label for="address">Ingresa tu dirección</label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                    placeholder="Dirección completa" required>
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-prev">Anterior</button>
+                                <button type="button" class="btn btn-next">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 6: Suministro eléctrico -->
+                        <div class="form-step" data-step="6">
+                            <div class="form-group">
+                                <label for="has-electricity">¿Cuentas con suministro eléctrico?</label>
+                                <select class="form-control" id="has-electricity" name="has-electricity" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-prev">Anterior</button>
+                                <button type="button" class="btn btn-next" id="step6-next">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 7: Monto mensual de la boleta -->
+                        <div class="form-step" data-step="7">
+                            <div class="form-group" id="monthly-bill-group">
+                                <label for="monthly-bill">Monto mensual de la boleta de luz</label>
+                                <input type="number" class="form-control" id="monthly-bill" name="monthly-bill"
+                                    placeholder="Ej: 25000" min="1">
+                            </div>
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-prev">Anterior</button>
+                                <button type="submit" class="btn btn-accent" id="submit-form">Enviar Cotización</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -64,7 +214,8 @@
                         <i class="fas fa-hand-holding-dollar"></i>
                     </div>
                     <h3>Ahorro Económico</h3>
-                    <p>Reduce hasta un 30% en tus facturas de energía con nuestras soluciones optimizadas para maximizar la eficiencia.</p>
+                    <p>Reduce hasta un 30% en tus facturas de energía con nuestras soluciones optimizadas para maximizar
+                        la eficiencia.</p>
                     <a href="#" class="btn btn-outline">Más información</a>
                 </div>
                 <div class="feature-card">
@@ -72,7 +223,8 @@
                         <i class="fas fa-leaf"></i>
                     </div>
                     <h3>Impacto Ambiental</h3>
-                    <p>Disminuye tu huella de carbono y contribuye a la sostenibilidad del planeta con tecnologías ecológicas.</p>
+                    <p>Disminuye tu huella de carbono y contribuye a la sostenibilidad del planeta con tecnologías
+                        ecológicas.</p>
                     <a href="#" class="btn btn-outline">Más información</a>
                 </div>
                 <div class="feature-card">
@@ -80,7 +232,8 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3>Retorno de Inversión</h3>
-                    <p>Nuestras soluciones están diseñadas para ofrecer un ROI rápido, con plazos de recuperación menores a 2 años.</p>
+                    <p>Nuestras soluciones están diseñadas para ofrecer un ROI rápido, con plazos de recuperación
+                        menores a 2 años.</p>
                     <a href="#" class="btn btn-outline">Más información</a>
                 </div>
             </div>
@@ -101,7 +254,8 @@
                     </div>
                     <div class="service-content">
                         <h3>Auditoría Energética</h3>
-                        <p>Analizamos detalladamente el consumo energético de tu hogar o empresa para identificar oportunidades de ahorro y mejora.</p>
+                        <p>Analizamos detalladamente el consumo energético de tu hogar o empresa para identificar
+                            oportunidades de ahorro y mejora.</p>
                         <a href="#" class="btn btn-outline">Solicitar auditoría</a>
                     </div>
                 </div>
@@ -111,7 +265,8 @@
                     </div>
                     <div class="service-content">
                         <h3>Instalación Energía Solar</h3>
-                        <p>Diseñamos e instalamos sistemas fotovoltaicos personalizados para aprovechar la energía solar y reducir tu dependencia de la red.</p>
+                        <p>Diseñamos e instalamos sistemas fotovoltaicos personalizados para aprovechar la energía solar
+                            y reducir tu dependencia de la red.</p>
                         <a href="#" class="btn btn-outline">Más información</a>
                     </div>
                 </div>
@@ -121,116 +276,9 @@
                     </div>
                     <div class="service-content">
                         <h3>Iluminación Eficiente</h3>
-                        <p>Modernizamos los sistemas de iluminación con tecnología LED y sistemas de control inteligente para maximizar el ahorro energético.</p>
+                        <p>Modernizamos los sistemas de iluminación con tecnología LED y sistemas de control inteligente
+                            para maximizar el ahorro energético.</p>
                         <a href="#" class="btn btn-outline">Ver opciones</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Case Studies Section -->
-    <section class="case-studies" id="proyectos">
-        <div class="container">
-            <div class="section-header">
-                <h3>Casos de Éxito</h3>
-                <h2>Proyectos que transformaron el consumo energético</h2>
-            </div>
-            <div class="case-studies-container">
-                <div class="case-study">
-                    <div class="case-study-image">
-                        <img src="/api/placeholder/400/320" alt="Proyecto Comercial">
-                    </div>
-                    <div class="case-study-content">
-                        <span class="case-study-category">Sector Comercial</span>
-                        <h3>Centro Comercial Las Condes</h3>
-                        <p>Implementación integral de soluciones de eficiencia energética en un centro comercial de 25,000 m².</p>
-                        <div class="case-study-stats">
-                            <div class="stat">
-                                <div class="stat-value">42%</div>
-                                <div class="stat-label">Ahorro Energético</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">18</div>
-                                <div class="stat-label">Meses ROI</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">150</div>
-                                <div class="stat-label">Ton CO2 Reducidas</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="case-study">
-                    <div class="case-study-image">
-                        <img src="/api/placeholder/400/320" alt="Proyecto Industrial">
-                    </div>
-                    <div class="case-study-content">
-                        <span class="case-study-category">Sector Industrial</span>
-                        <h3>Planta Productiva Maipú</h3>
-                        <p>Optimización del sistema energético en planta industrial con implementación de energía solar y motores eficientes.</p>
-                        <div class="case-study-stats">
-                            <div class="stat">
-                                <div class="stat-value">38%</div>
-                                <div class="stat-label">Ahorro Energético</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">24</div>
-                                <div class="stat-label">Meses ROI</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">320</div>
-                                <div class="stat-label">Ton CO2 Reducidas</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Calculator Section -->
-    <section class="calculator" id="calculadora">
-        <div class="container">
-            <div class="calculator-container">
-                <div class="calculator-text">
-                    <h3>Calculadora de Ahorro</h3>
-                    <h2>¿Cuánto puedes ahorrar con nuestras soluciones?</h2>
-                    <p>Utiliza nuestra calculadora interactiva para estimar el ahorro potencial en tu factura energética y el tiempo de retorno de inversión basado en tus necesidades específicas.</p>
-                </div>
-                <div class="calculator-form">
-                    <div class="form-group">
-                        <label for="building-type">Tipo de edificación</label>
-                        <select class="form-control" id="building-type">
-                            <option value="">Selecciona una opción</option>
-                            <option value="home">Residencial</option>
-                            <option value="office">Oficina</option>
-                            <option value="retail">Comercio</option>
-                            <option value="industrial">Industrial</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="area">Superficie (m²)</label>
-                        <input type="number" class="form-control" id="area" placeholder="Ej: 150">
-                    </div>
-                    <div class="form-group">
-                        <label for="current-bill">Factura mensual actual (CLP)</label>
-                        <input type="number" class="form-control" id="current-bill" placeholder="Ej: 120000">
-                    </div>
-                    <div class="form-group">
-                        <label for="solution">Solución de interés</label>
-                        <select class="form-control" id="solution">
-                            <option value="">Selecciona una opción</option>
-                            <option value="solar">Energía Solar</option>
-                            <option value="lighting">Iluminación LED</option>
-                            <option value="hvac">Climatización Eficiente</option>
-                            <option value="complete">Solución Integral</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-accent">Calcular Ahorro</button>
-                    <div class="calc-result">
-                        <div class="result-value">$340.000</div>
-                        <div class="result-label">Ahorro anual estimado</div>
                     </div>
                 </div>
             </div>
@@ -287,20 +335,21 @@
                 <div class="contact-form">
                     <h3>Envíanos un mensaje</h3>
                     <div class="form-group">
-                        <label for="name">Nombre completo</label>
-                        <input type="text" class="form-control" id="name" placeholder="Tu nombre">
+                        <label for="contact-name">Nombre completo</label>
+                        <input type="text" class="form-control" id="contact-name" placeholder="Tu nombre">
                     </div>
                     <div class="form-group">
-                        <label for="email">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="Tu email">
+                        <label for="contact-email">Correo electrónico</label>
+                        <input type="email" class="form-control" id="contact-email" placeholder="Tu email">
                     </div>
                     <div class="form-group">
-                        <label for="phone">Teléfono</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Tu teléfono">
+                        <label for="contact-phone">Teléfono</label>
+                        <input type="tel" class="form-control" id="contact-phone" placeholder="Tu teléfono">
                     </div>
                     <div class="form-group">
-                        <label for="message">Mensaje</label>
-                        <textarea class="form-control" id="message" placeholder="¿En qué podemos ayudarte?"></textarea>
+                        <label for="contact-message">Mensaje</label>
+                        <textarea class="form-control" id="contact-message"
+                            placeholder="¿En qué podemos ayudarte?"></textarea>
                     </div>
                     <button type="submit" class="btn">Enviar mensaje</button>
                 </div>
@@ -317,7 +366,8 @@
                         <i class="fas fa-leaf"></i>
                         <h2>Impulso<span>Verde</span></h2>
                     </div>
-                    <p>Somos líderes en soluciones de eficiencia energética en Chile, comprometidos con la sostenibilidad y la innovación para un futuro más verde.</p>
+                    <p>Somos líderes en soluciones de eficiencia energética en Chile, comprometidos con la
+                        sostenibilidad y la innovación para un futuro más verde.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -331,7 +381,6 @@
                         <li><a href="#">Inicio</a></li>
                         <li><a href="#servicios">Servicios</a></li>
                         <li><a href="#proyectos">Proyectos</a></li>
-                        <li><a href="#calculadora">Calculadora</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </div>
@@ -362,6 +411,133 @@
         </div>
     </footer>
 
+    <!-- Hidden quote template for PDF generation -->
+    <div id="quote-template" style="display: none;">
+        <div id="quote-header" style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+            <div id="quote-logo" style="display: flex; align-items: center;">
+                <img src="/api/placeholder/80/80" alt="Logo Impulso Verde" style="margin-right: 10px;">
+                <h2 style="color: #43a48d; margin: 0;">Impulso<span style="color: #276a63;">Verde</span></h2>
+            </div>
+            <div id="quote-info" style="text-align: right;">
+                <h2 style="color: #276a63; margin: 0;">COTIZACIÓN</h2>
+                <p id="quote-ref" style="margin: 5px 0;">Referencia: <span id="quote-number"></span></p>
+                <p id="quote-validity" style="margin: 5px 0;">Válida por 15 días</p>
+            </div>
+        </div>
+
+        <div id="quote-client-info" style="margin-bottom: 30px; padding: 15px; background-color: #afd9cf;">
+            <h3 style="color: #276a63; margin-top: 0;">CLIENTE</h3>
+            <p id="client-name" style="margin: 5px 0;"></p>
+            <p id="client-email" style="margin: 5px 0;"></p>
+            <p id="client-address" style="margin: 5px 0;"></p>
+        </div>
+
+        <div id="quote-details" style="margin-bottom: 30px;">
+            <h3 style="color: #276a63;">NUESTRA PROPUESTA DE INVERSIÓN</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="background-color: #43a48d; color: white;">
+                    <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">VALOR NETO</th>
+                    <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">$ <span
+                            id="net-price">4.550.524</span></th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">IVA</td>
+                    <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">$ <span
+                            id="tax-price">864.599</span></td>
+                </tr>
+                <tr style="background-color: #afd9cf;">
+                    <td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">VALOR BRUTO</td>
+                    <td style="padding: 10px; text-align: right; font-weight: bold; border: 1px solid #ddd;">$ <span
+                            id="total-price">5.415.123</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="system-details" style="margin-bottom: 30px;">
+            <h3 style="color: #276a63;">Características del Sistema</h3>
+            <div id="solution-details" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                <div style="flex: 1; min-width: 200px; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+                    <p style="margin: 5px 0;"><i class="fas fa-check" style="color: #43a48d;"></i> 10 Paneles Trina de
+                        435 Wp</p>
+                </div>
+                <div style="flex: 1; min-width: 200px; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+                    <p style="margin: 5px 0;"><i class="fas fa-check" style="color: #43a48d;"></i> 1 Inversor HUAWEI
+                        Monofásico de 4 kW</p>
+                </div>
+                <div style="flex: 1; min-width: 200px; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+                    <p style="margin: 5px 0;"><i class="fas fa-check" style="color: #43a48d;"></i> 15 mts de
+                        canalización y cableado CC</p>
+                </div>
+                <div style="flex: 1; min-width: 200px; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+                    <p style="margin: 5px 0;"><i class="fas fa-check" style="color: #43a48d;"></i> 5 mts de canalización
+                        y cableado AC</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="quote-benefits" style="margin-bottom: 30px;">
+            <h3 style="color: #276a63;">Beneficios</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background-color: #43a48d; color: white; text-align: center;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Potencia fotovoltaica</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Generación Anual</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Ahorro Anual</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Retorno a la inversión</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Reducción de CO2</th>
+                </tr>
+                <tr style="text-align: center;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><span id="power-value">4,35 kWp</span></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><span id="generation-value">5716 kWh</span></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><span id="saving-value">$1.095.468</span></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><span id="roi-value">4,2 Años</span></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><span id="co2-value">2,1 ton CO2 / año</span>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="display: flex; gap: 20px;">
+                <div style="flex: 1;">
+                    <h4 style="color: #276a63;">Modalidad de compra</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Contra entrega de materiales</td>
+                            <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">30%</td>
+                            <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$1.624.537</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Sistema fotovoltaico instalado</td>
+                            <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">60%</td>
+                            <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$3.249.074</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Certificación SEC aprobada</td>
+                            <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">10%</td>
+                            <td style="padding: 8px; text-align: right; border: 1px solid #ddd;">$541.512</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="flex: 1;">
+                    <h4 style="color: #276a63;">Valor de mantenimiento (opcional)</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">$98.592 / Visita</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Se recomiendan 1 visita por año</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="quote-footer" style="margin-top: 40px; font-size: 0.9em; color: #666;">
+            <p><strong>Consideraciones:</strong></p>
+            <p>El ahorro presentado en la cotización es solo referencial y es calculado en base a condiciones ideales de
+                operación del primer año considerando que se realizan los mantenimientos, limpiezas y uso recomendados
+                por parte del cliente.</p>
+            <p>Presupuesto NO vinculante hasta realizar visita para corroborar factibilidad técnica, en caso de existir
+                adicionales es responsabilidad del cliente.</p>
+        </div>
+    </div>
+
     <script>
         // Mobile menu toggle
         const mobileToggle = document.querySelector('.mobile-toggle');
@@ -389,7 +565,371 @@
             });
         });
         
-        // Advanced calculator functionality with realistic factors
+        // Quote Form Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const quoteBtn = document.getElementById('quote-btn');
+            const quoteForm = document.getElementById('quote-form');
+            const formSteps = document.querySelectorAll('.form-step');
+            const nextBtns = document.querySelectorAll('.btn-next');
+            const prevBtns = document.querySelectorAll('.btn-prev');
+            const stepIndicators = document.querySelectorAll('.step');
+            const quoteFormElement = document.getElementById('quote-form-element');
+            const housingType = document.getElementById('housing-type');
+            const deptMessage = document.getElementById('dept-message');
+            const step2Next = document.getElementById('step2-next');
+            const hasElectricity = document.getElementById('has-electricity');
+            const step6Next = document.getElementById('step6-next');
+            const monthlyBillGroup = document.getElementById('monthly-bill-group');
+            const monthlyBill = document.getElementById('monthly-bill');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+    
+            // Show quote form when button is clicked
+            quoteBtn.addEventListener('click', () => {
+                quoteForm.style.display = 'block';
+                window.scrollTo({
+                    top: quoteForm.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+    
+            // Handle step navigation
+            nextBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const currentStep = parseInt(btn.closest('.form-step').dataset.step);
+                    
+                    // Validate current step
+                    if (validateStep(currentStep)) {
+                        // Check if user selected "departamento" on step 2
+                        if (currentStep === 2 && housingType.value === 'departamento') {
+                            return;
+                        }
+                        
+                        // Move to next step
+                        showStep(currentStep + 1);
+                        updateStepIndicator(currentStep + 1);
+                    }
+                });
+            });
+    
+            prevBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const currentStep = parseInt(btn.closest('.form-step').dataset.step);
+                    showStep(currentStep - 1);
+                    updateStepIndicator(currentStep - 1);
+                });
+            });
+    
+            // Handle housing type selection on step 2
+            housingType.addEventListener('change', function() {
+                if (this.value === 'departamento') {
+                    deptMessage.style.display = 'block';
+                    step2Next.style.display = 'none';
+                } else {
+                    deptMessage.style.display = 'none';
+                    step2Next.style.display = 'inline-block';
+                }
+            });
+    
+            // Handle electricity selection on step 6
+            hasElectricity.addEventListener('change', function() {
+                if (this.value === 'si') {
+                    monthlyBillGroup.style.display = 'block';
+                    monthlyBill.required = true;
+                } else {
+                    monthlyBillGroup.style.display = 'none';
+                    monthlyBill.required = false;
+                    monthlyBill.value = '';
+                }
+            });
+    
+            // Handle form submission
+            quoteFormElement.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (validateStep(7)) {
+                    generateQuote();
+                }
+            });
+    
+            // Function to show a specific step
+            function showStep(stepNumber) {
+                formSteps.forEach(step => {
+                    step.classList.remove('active');
+                    if (parseInt(step.dataset.step) === stepNumber) {
+                        step.classList.add('active');
+                    }
+                });
+            }
+    
+            // Function to update step indicator
+            function updateStepIndicator(stepNumber) {
+                stepIndicators.forEach(step => {
+                    const stepNum = parseInt(step.dataset.step);
+                    step.classList.remove('active', 'completed');
+                    
+                    if (stepNum === stepNumber) {
+                        step.classList.add('active');
+                    } else if (stepNum < stepNumber) {
+                        step.classList.add('completed');
+                    }
+                });
+            }
+    
+            // Function to validate each step
+            function validateStep(stepNumber) {
+                errorMessage.style.display = 'none';
+                errorMessage.textContent = '';
+                
+                switch (stepNumber) {
+                    case 1:
+                        const solution = document.getElementById('solution');
+                        if (!solution.value) {
+                            showError('Por favor, selecciona una solución');
+                            return false;
+                        }
+                        return true;
+                    
+                    case 2:
+                        if (!housingType.value) {
+                            showError('Por favor, selecciona el tipo de vivienda');
+                            return false;
+                        }
+                        return true;
+                    
+                    case 3:
+                        const name = document.getElementById('name');
+                        if (!name.value.trim()) {
+                            showError('Por favor, ingresa tu nombre');
+                            return false;
+                        }
+                        return true;
+                    
+                    case 4:
+                        const email = document.getElementById('email');
+                        if (!email.value.trim()) {
+                            showError('Por favor, ingresa tu correo electrónico');
+                            return false;
+                        }
+                        
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(email.value)) {
+                            showError('Por favor, ingresa un correo electrónico válido');
+                            return false;
+                        }
+                        return true;
+                    
+                    case 5:
+                        const address = document.getElementById('address');
+                        if (!address.value.trim()) {
+                            showError('Por favor, ingresa tu dirección');
+                            return false;
+                        }
+                        return true;
+                    
+                    case 6:
+                        if (!hasElectricity.value) {
+                            showError('Por favor, indica si cuentas con suministro eléctrico');
+                            return false;
+                        }
+                        return true;
+                    
+                    case 7:
+                        if (hasElectricity.value === 'si' && (!monthlyBill.value || monthlyBill.value <= 0)) {
+                            showError('Por favor, ingresa el monto mensual de tu boleta de luz');
+                            return false;
+                        }
+                        return true;
+                    
+                    default:
+                        return true;
+                }
+            }
+    
+            // Function to show error message
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+    
+            // Function to generate the quote
+            function generateQuote() {
+                // Show success message
+                successMessage.textContent = 'Procesando tu cotización...';
+                successMessage.style.display = 'block';
+                
+                // Collect form data
+                const formData = {
+                    solution: document.getElementById('solution').value,
+                    housingType: document.getElementById('housing-type').value,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    address: document.getElementById('address').value,
+                    hasElectricity: document.getElementById('has-electricity').value,
+                    monthlyBill: document.getElementById('monthly-bill').value || 0
+                };
+                
+                // Calculate savings based on monthly bill for photovoltaic systems
+                let netPrice = 4550524;
+                let taxRate = 0.19;
+                let savingPerYear = 1095468;
+                let power = 4.35;
+                let generation = 5716;
+                let roi = 4.2;
+                let co2Reduction = 2.1;
+                
+                if (formData.solution === 'fotovoltaico' && formData.hasElectricity === 'si' && formData.monthlyBill > 0) {
+                    // Adjust based on monthly bill
+                    const monthlyBillNum = parseInt(formData.monthlyBill);
+                    const yearlyBill = monthlyBillNum * 12;
+                    
+                    // Simplified calculation - in a real scenario this would be more complex
+                    if (yearlyBill < 600000) {
+                        netPrice = 2500000;
+                        power = 2.5;
+                        generation = 3300;
+                        savingPerYear = yearlyBill * 0.7; // 70% savings
+                    } else if (yearlyBill < 1200000) {
+                        netPrice = 4550524; // Keep default
+                        savingPerYear = yearlyBill * 0.75; // 75% savings
+                    } else {
+                        netPrice = 6500000;
+                        power = 6.2;
+                        generation = 8200;
+                        savingPerYear = yearlyBill * 0.8; // 80% savings
+                    }
+                    
+                    // Calculate ROI
+                    roi = (netPrice * (1 + taxRate)) / savingPerYear;
+                    roi = Math.round(roi * 10) / 10; // Round to 1 decimal place
+                    
+                    // CO2 reduction scales roughly with system size
+                    co2Reduction = (power / 4.35) * 2.1;
+                    co2Reduction = Math.round(co2Reduction * 10) / 10; // Round to 1 decimal place
+                } else if (formData.solution === 'bombacalor') {
+                    netPrice = 3800000;
+                    savingPerYear = 850000;
+                    power = 0;
+                    generation = 0;
+                    roi = 5.3;
+                    co2Reduction = 1.8;
+                }
+                
+                // Calculate tax and total
+                const taxPrice = Math.round(netPrice * taxRate);
+                const totalPrice = netPrice + taxPrice;
+                
+                // Format numbers
+                const formatter = new Intl.NumberFormat('es-CL');
+                
+                // Update quote template with calculated values
+                document.getElementById('quote-number').textContent = 'COT_' + Date.now().toString().substr(-6);
+                document.getElementById('client-name').textContent = formData.name;
+                document.getElementById('client-email').textContent = formData.email;
+                document.getElementById('client-address').textContent = formData.address;
+                
+                document.getElementById('net-price').textContent = formatter.format(netPrice);
+                document.getElementById('tax-price').textContent = formatter.format(taxPrice);
+                document.getElementById('total-price').textContent = formatter.format(totalPrice);
+                
+                // Update benefit values
+                if (formData.solution === 'fotovoltaico') {
+                    document.getElementById('power-value').textContent = power + ' kWp';
+                    document.getElementById('generation-value').textContent = formatter.format(generation) + ' kWh';
+                } else {
+                    document.getElementById('power-value').textContent = 'N/A';
+                    document.getElementById('generation-value').textContent = 'N/A';
+                }
+                
+                document.getElementById('saving-value').textContent = '$' + formatter.format(savingPerYear);
+                document.getElementById('roi-value').textContent = roi + ' Años';
+                document.getElementById('co2-value').textContent = co2Reduction + ' ton CO2 / año';
+                
+                // Generate PDF
+                generatePDF(formData);
+            }
+    
+            // Function to generate PDF using jsPDF and html2canvas
+            function generatePDF(formData) {
+                const { jsPDF } = window.jspdf;
+                const quoteTemplate = document.getElementById('quote-template');
+                
+                // Make the template visible for html2canvas but not to the user
+                quoteTemplate.style.display = 'block';
+                quoteTemplate.style.position = 'absolute';
+                quoteTemplate.style.left = '-9999px';
+                
+                // Use html2canvas to capture the template
+                html2canvas(quoteTemplate, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                }).then(canvas => {
+                    // Hide the template again
+                    quoteTemplate.style.display = 'none';
+                    
+                    // Create PDF
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 210;
+                    const imgHeight = canvas.height * imgWidth / canvas.width;
+                    
+                    // Add the captured image to PDF
+                    const imgData = canvas.toDataURL('image/png');
+                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                    
+                    // Save the PDF
+                    const fileName = 'Cotizacion_ImpulsoVerde_' + formData.name.replace(/\s+/g, '_') + '.pdf';
+                    pdf.save(fileName);
+                    
+                    // Enviar por correo electrónico
+                    sendEmailWithQuote(formData, pdf, fileName);
+                    
+                    // Update success message
+                    successMessage.textContent = '¡Cotización generada con éxito! Se ha descargado el archivo PDF.';
+                });
+            }
+            
+            // Función para enviar el correo con la cotización
+            function sendEmailWithQuote(formData, pdf, fileName) {
+                // Crear FormData para enviar el PDF
+                const emailData = new FormData();
+                
+                // Convertir el PDF a un blob para enviarlo
+                const pdfBlob = pdf.output('blob');
+                
+                // Añadir el archivo y los datos al FormData
+                emailData.append('pdfFile', pdfBlob, fileName);
+                emailData.append('customerName', formData.name);
+                emailData.append('customerEmail', formData.email);
+                emailData.append('customerAddress', formData.address);
+                emailData.append('solution', formData.solution === 'fotovoltaico' ? 'Energía Fotovoltaica' : 'Bomba de Calor');
+                emailData.append('housingType', formData.housingType === 'casa' ? 'Casa' : 'Departamento');
+                emailData.append('companyEmail', 'matias.puentes@impulsoverde.cl');
+                
+                // Mostrar mensaje de envío
+                successMessage.textContent = 'Enviando cotización por correo electrónico...';
+                
+                // Enviar la solicitud al servidor
+                fetch('send-email.php', {
+                    method: 'POST',
+                    body: emailData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        successMessage.textContent = '¡Cotización generada con éxito! Se ha descargado el archivo PDF y enviado por correo.';
+                    } else {
+                        successMessage.textContent = '¡Cotización generada con éxito! Se ha descargado el archivo PDF. Hubo un problema al enviar el correo.';
+                        console.error('Error al enviar el correo:', data.error);
+                    }
+                })
+                .catch(error => {
+                    successMessage.textContent = '¡Cotización generada con éxito! Se ha descargado el archivo PDF. No se pudo enviar por correo.';
+                    console.error('Error en la solicitud:', error);
+                });
+            }
+        });
+        
+        // Calculadora de ahorro - esta es la parte donde estaba el error
         const calculateBtn = document.querySelector('.calculator-form .btn');
         
         if (calculateBtn) {
@@ -434,10 +974,8 @@
                     // Calcular ahorro anual
                     const annualSaving = Math.round(currentBill * finalSavingRate * 12);
                     
-                    // Mostrar resultado
-                    resultValue.textContent = '
-</body>
-</html> + annualSaving.toLocaleString();
+                    // AQUÍ ESTABA EL ERROR - LÍNEA CORREGIDA
+                    resultValue.textContent = "$" + annualSaving.toLocaleString();
                     
                     // Calcular estimación de retorno de inversión basado en tipo de solución
                     const investmentEstimates = {
@@ -454,11 +992,12 @@
                     resultLabel.innerHTML = `Ahorro anual estimado<br><span style="font-size:14px;color:#666;">Recuperación en aproximadamente ${roiMonths} meses</span>`;
                 } else {
                     // Si no se completaron todos los campos
-                    resultValue.textContent = '$0';
-                    resultLabel.textContent = 'Complete todos los campos';
+                    resultValue.textContent = "$0";
+                    resultLabel.textContent = "Complete todos los campos";
                 }
             });
         }
     </script>
 </body>
+
 </html>
