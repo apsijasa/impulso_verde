@@ -7,9 +7,16 @@
     <title>Impulso Verde - Soluciones de Eficiencia Energética</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- React y ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcgpZAEcC0RgcTEoHB5KSI_gBK-XbHQi0&libraries=places"></script>
 </head>
@@ -49,7 +56,7 @@
                         con soluciones personalizadas y tecnología de vanguardia.</p>
                     <div class="hero-buttons">
                         <a href="#servicios" class="btn">Nuestros Servicios</a>
-                        <a href="#contacto" class="btn btn-outline">Contáctanos</a>
+                        <a href="#calculadora" class="btn btn-outline">Calculadora Online</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -64,7 +71,23 @@
         <button class="btn btn-quote" id="quote-btn">Solicitar Cotización</button>
     </div>
 
-    <!-- Quote Form Section -->
+    <!-- Calculadora Section -->
+    <section class="calculadora-section" id="calculadora">
+        <div class="container">
+            <div class="section-header">
+                <h3>Calculadora</h3>
+                <h2>Cotiza tu proyecto de eficiencia energética</h2>
+                <p>Obtén una cotización personalizada en tiempo real para tu proyecto de paneles solares</p>
+            </div>
+            
+            <!-- Calculadora React Component Container -->
+            <div id="calculadora-container">
+                <!-- La calculadora React se montará aquí -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Form Section (Formulario original como backup) -->
     <section id="quote-form" class="quote-form-section">
         <div class="container">
             <div class="quote-form-container">
@@ -237,7 +260,7 @@
                     <h3>Ahorro Económico</h3>
                     <p>Reduce hasta un 30% en tus facturas de energía con nuestras soluciones optimizadas para maximizar
                         la eficiencia.</p>
-                    <a href="#" class="btn btn-outline">Más información</a>
+                    <a href="#calculadora" class="btn btn-outline">Calcular ahorro</a>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -246,7 +269,7 @@
                     <h3>Impacto Ambiental</h3>
                     <p>Disminuye tu huella de carbono y contribuye a la sostenibilidad del planeta con tecnologías
                         ecológicas.</p>
-                    <a href="#" class="btn btn-outline">Más información</a>
+                    <a href="#calculadora" class="btn btn-outline">Ver impacto</a>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -255,7 +278,7 @@
                     <h3>Retorno de Inversión</h3>
                     <p>Nuestras soluciones están diseñadas para ofrecer un ROI rápido, con plazos de recuperación
                         menores a 2 años.</p>
-                    <a href="#" class="btn btn-outline">Más información</a>
+                    <a href="#calculadora" class="btn btn-outline">Calcular ROI</a>
                 </div>
             </div>
         </div>
@@ -277,7 +300,7 @@
                         <h3>Auditoría Energética</h3>
                         <p>Analizamos detalladamente el consumo energético de tu hogar o empresa para identificar
                             oportunidades de ahorro y mejora.</p>
-                        <a href="#" class="btn btn-outline">Solicitar auditoría</a>
+                        <a href="#contacto" class="btn btn-outline">Solicitar auditoría</a>
                     </div>
                 </div>
                 <div class="service-card">
@@ -288,18 +311,18 @@
                         <h3>Instalación Energía Solar</h3>
                         <p>Diseñamos e instalamos sistemas fotovoltaicos personalizados para aprovechar la energía solar
                             y reducir tu dependencia de la red.</p>
-                        <a href="#" class="btn btn-outline">Más información</a>
+                        <a href="#calculadora" class="btn btn-outline">Calcular ahorro</a>
                     </div>
                 </div>
                 <div class="service-card">
                     <div class="service-image">
-                        <img src="/api/placeholder/400/320" alt="Iluminación LED">
+                        <img src="/api/placeholder/400/320" alt="Bomba de Calor">
                     </div>
                     <div class="service-content">
-                        <h3>Iluminación Eficiente</h3>
-                        <p>Modernizamos los sistemas de iluminación con tecnología LED y sistemas de control inteligente
-                            para maximizar el ahorro energético.</p>
-                        <a href="#" class="btn btn-outline">Ver opciones</a>
+                        <h3>Bombas de Calor</h3>
+                        <p>Sistemas eficientes para calefacción, refrigeración y agua caliente sanitaria, ideales para
+                            piscinas y climatización del hogar.</p>
+                        <a href="#calculadora" class="btn btn-outline">Ver opciones</a>
                     </div>
                 </div>
             </div>
@@ -401,18 +424,18 @@
                     <ul>
                         <li><a href="#">Inicio</a></li>
                         <li><a href="#servicios">Servicios</a></li>
-                        <li><a href="#proyectos">Proyectos</a></li>
+                        <li><a href="#calculadora">Calculadora</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h3>Servicios</h3>
                     <ul>
-                        <li><a href="#">Auditoría Energética</a></li>
-                        <li><a href="#">Energía Solar</a></li>
-                        <li><a href="#">Iluminación Eficiente</a></li>
-                        <li><a href="#">Climatización</a></li>
-                        <li><a href="#">Automatización</a></li>
+                        <li><a href="#calculadora">Calculadora Online</a></li>
+                        <li><a href="#servicios">Energía Solar</a></li>
+                        <li><a href="#servicios">Bombas de Calor</a></li>
+                        <li><a href="#servicios">Auditoría Energética</a></li>
+                        <li><a href="#servicios">Automatización</a></li>
                     </ul>
                 </div>
                 <div class="newsletter">
@@ -559,6 +582,10 @@
         </div>
     </div>
 
+    <!-- Script de la calculadora -->
+    <script src="calculadora-integration.js"></script>
+    
+    <!-- Scripts principales del sitio -->
     <script>
         // Mobile menu toggle
         const mobileToggle = document.querySelector('.mobile-toggle');
@@ -973,7 +1000,7 @@
                     document.getElementById('generation-value').textContent = 'N/A';
                 }
                 
-                document.getElementById('saving-value').textContent = '$' + formatter.format(savingPerYear);
+                document.getElementById('saving-value').textContent = ' + formatter.format(savingPerYear);
                 document.getElementById('roi-value').textContent = roi + ' Años';
                 document.getElementById('co2-value').textContent = co2Reduction + ' ton CO2 / año';
                 

@@ -225,6 +225,72 @@ header {
     background-color: var(--secondary-color);
 }
 
+/* Calculadora Section */
+.calculadora-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, rgba(67, 164, 141, 0.05) 0%, rgba(48, 112, 91, 0.05) 100%);
+}
+
+.calculadora-section .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.calculadora-section .section-header p {
+    font-size: 18px;
+    color: var(--mid-gray);
+    margin-top: 15px;
+}
+
+#calculadora-container {
+    width: 100%;
+    min-height: 600px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Estilos específicos para la calculadora React */
+.calculadora-react {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.calculadora-react .btn {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calculadora-react .btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.calculadora-react .form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.calculadora-react .form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 164, 141, 0.1);
+}
+
+.calculadora-react select.form-control {
+    cursor: pointer;
+}
+
 /* Features Section */
 .features {
     padding: 80px 0;
@@ -907,6 +973,47 @@ footer {
     font-size: 14px;
 }
 
+/* Estilos para la integración de React */
+.react-calculator-wrapper {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Sobrescribir estilos de Tailwind para que coincidan con el tema del sitio */
+.calculadora-react .bg-green-600 {
+    background-color: var(--primary-color) !important;
+}
+
+.calculadora-react .hover\:bg-green-700:hover {
+    background-color: var(--secondary-color) !important;
+}
+
+.calculadora-react .text-green-600 {
+    color: var(--primary-color) !important;
+}
+
+.calculadora-react .text-green-800 {
+    color: var(--secondary-color) !important;
+}
+
+.calculadora-react .bg-green-50 {
+    background-color: rgba(67, 164, 141, 0.05) !important;
+}
+
+.calculadora-react .border-green-200 {
+    border-color: rgba(67, 164, 141, 0.3) !important;
+}
+
+.calculadora-react .focus\:ring-green-500:focus {
+    box-shadow: 0 0 0 3px rgba(67, 164, 141, 0.2) !important;
+}
+
+.calculadora-react .focus\:border-transparent:focus {
+    border-color: var(--primary-color) !important;
+}
+
 /* Media Queries */
 @media screen and (max-width: 992px) {
     .hero-content, .calculator-container, .contact-container {
@@ -960,6 +1067,14 @@ footer {
     #map-container {
         height: 300px;
     }
+    
+    .calculadora-section {
+        padding: 60px 0;
+    }
+    
+    #calculadora-container {
+        margin: 0 15px;
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -987,5 +1102,18 @@ footer {
     
     #map-container {
         height: 250px;
+    }
+    
+    .calculadora-section {
+        padding: 40px 0;
+    }
+    
+    .calculadora-section .section-header h2 {
+        font-size: 24px;
+    }
+    
+    #calculadora-container {
+        margin: 0 10px;
+        min-height: 500px;
     }
 }
