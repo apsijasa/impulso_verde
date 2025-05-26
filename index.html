@@ -680,7 +680,7 @@
                     
                     // Actualizar dirección con geocodificación inversa
                     geocoder.geocode({ 'location': position }, function(results, status) {
-                        if (status === 'OK' && results[0]) {
+                        if (status === "OK" && results[0]) {
                             addressInput.value = results[0].formatted_address;
                         }
                     });
@@ -692,11 +692,11 @@
                 const address = addressInput.value;
                 
                 if (!address) {
-                    showError('Por favor, ingresa una dirección válida');
+                    showError("Por favor, ingresa una dirección válida");
                     return false;
                 }
                 
-                geocoder.geocode({ 'address': address + ', Chile' }, function(results, status) {
+                geocoder.geocode({ "address": address + ", Chile" }, function(results, status) {
                     if (status === 'OK' && results[0]) {
                         const position = results[0].geometry.location;
                         const lat = position.lat();
@@ -716,7 +716,7 @@
                         
                         return true;
                     } else {
-                        showError('No se pudo encontrar la ubicación. Por favor, verifica la dirección');
+                        showError("No se pudo encontrar la ubicación. Por favor, verifica la dirección");
                         return false;
                     }
                 });
