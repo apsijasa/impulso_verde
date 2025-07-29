@@ -773,7 +773,7 @@ const CalculadoraEficienciaEnergetica = () => {
         renderInputField('nombre', 'Nombre completo', 'text', 'Tu nombre completo', true),
         renderInputField('correo', 'Correo electrónico', 'email', 'tu@email.com', true),
         renderInputField('direccion', 'Dirección', 'text', 'Dirección completa de instalación', true),
-        renderInputField('telefono', 'Teléfono', 'tel', '+56 9 1234 5678', false)
+        renderInputField('telefono', 'Teléfono', 'tel', '+56 9 6863 5953', false)
       ])
     ]);
   };
