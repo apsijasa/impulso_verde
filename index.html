@@ -4,22 +4,814 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impulso Verde - Energía Renovable para tu Hogar</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Sistemas fotovoltaicos, bombas de calor y auditorías energéticas en Chile. Cotiza online y reduce tu consumo energético hasta un 90%.">
+    <meta name="keywords" content="energía solar, paneles solares, bomba de calor, eficiencia energética, Chile, Santiago">
+    <meta name="author" content="Impulso Verde">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Impulso Verde - Energía Renovable para tu Hogar">
+    <meta property="og:description" content="Transforma tu hogar con energía limpia. Cotiza sistemas fotovoltaicos y bombas de calor online.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_CL">
+    
+    <!-- Fuentes y estilos -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <style>
+        /* Variables CSS */
+        :root {
+            --color-primary: #43a48d;
+            --color-primary-dark: #276a63;
+            --color-primary-light: #afd9cf;
+            --color-accent: #e8f5f3;
+            --color-secondary: #6c757d;
+            --color-success: #28a745;
+            --color-warning: #ffc107;
+            --color-danger: #dc3545;
+            --color-info: #17a2b8;
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-gray-100: #f8f9fa;
+            --color-gray-200: #e9ecef;
+            --color-gray-300: #dee2e6;
+            --color-gray-400: #ced4da;
+            --color-gray-500: #adb5bd;
+            --color-gray-600: #6c757d;
+            --color-gray-700: #495057;
+            --color-gray-800: #343a40;
+            --color-gray-900: #212529;
+            
+            --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-weight-light: 300;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+            --font-weight-extrabold: 800;
+            
+            --border-radius-sm: 0.375rem;
+            --border-radius: 0.5rem;
+            --border-radius-lg: 0.75rem;
+            --border-radius-xl: 1rem;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --transition-fast: all 0.15s ease-in-out;
+            --transition-normal: all 0.3s ease-in-out;
+            --transition-slow: all 0.5s ease-in-out;
+        }
+
+        /* Reset y base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-primary);
+            line-height: 1.6;
+            color: var(--color-gray-800);
+            background-color: var(--color-white);
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 2rem;
+            }
+        }
+
+        /* Header y navegación */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: var(--transition-normal);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.75rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--color-gray-700);
+            font-weight: var(--font-weight-medium);
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: var(--transition-fast);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--color-gray-700);
+            transition: var(--transition-fast);
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--color-white);
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-100vh);
+                transition: var(--transition-normal);
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-white) 100%);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: var(--font-weight-extrabold);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--color-gray-900);
+        }
+
+        .hero-content .highlight {
+            color: var(--color-primary);
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--color-gray-600);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-lg);
+            text-decoration: none;
+            font-weight: var(--font-weight-semibold);
+            transition: var(--transition-normal);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--color-white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--color-gray-600);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: var(--shadow-xl);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-image i {
+            font-size: 8rem;
+            color: var(--color-white);
+        }
+
+        .floating-card {
+            position: absolute;
+            background: var(--color-white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-card.card-1 {
+            top: 10%;
+            left: -20%;
+            animation-delay: -1s;
+        }
+
+        .floating-card.card-2 {
+            bottom: 10%;
+            right: -20%;
+            animation-delay: -3s;
+        }
+
+        .floating-card.card-3 {
+            top: 50%;
+            right: -30%;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-image {
+                width: 300px;
+                height: 300px;
+            }
+
+            .hero-image i {
+                font-size: 6rem;
+            }
+
+            .floating-card {
+                position: relative;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+                margin: 1rem;
+            }
+        }
+
+        /* Secciones */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: var(--color-white);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow);
+            transition: var(--transition-normal);
+            text-align: center;
+            border: 1px solid var(--color-gray-200);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .service-icon i {
+            font-size: 2rem;
+            color: var(--color-white);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--color-gray-600);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+            text-align: left;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            color: var(--color-gray-700);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+            flex-shrink: 0;
+        }
+
+        /* Calculadora Section */
+        .calculator-section {
+            background: var(--color-gray-100);
+            padding: 5rem 0;
+        }
+
+        .calculator-container {
+            background: var(--color-white);
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .calculator-header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .calculator-header h2 {
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: 0.5rem;
+        }
+
+        .calculator-header p {
+            opacity: 0.9;
+            font-size: 1.125rem;
+        }
+
+        #calculator-root {
+            padding: 2rem;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--color-gray-300);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition-fast);
+            background: var(--color-white);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(67, 164, 141, 0.1);
+        }
+
+        .form-control.error {
+            border-color: var(--color-danger);
+        }
+
+        .form-control.error:focus {
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        }
+
+        .error-message {
+            color: var(--color-danger);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--color-gray-900);
+            color: var(--color-white);
+            padding: 5rem 0;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-lg);
+            transition: var(--transition-normal);
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--color-primary-light);
+            flex-shrink: 0;
+        }
+
+        .contact-item h4 {
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item p {
+            color: var(--color-gray-400);
+            margin: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 1rem;
+            color: var(--color-primary-light);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-gray-800);
+            padding-top: 1rem;
+            text-align: center;
+            color: var(--color-gray-500);
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Utilidades */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 1rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .mb-5 { margin-bottom: 3rem; }
+
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 1rem; }
+        .mt-4 { margin-top: 1.5rem; }
+        .mt-5 { margin-top: 3rem; }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading y estados */
+        .loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--color-white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: 1rem 1.5rem;
+            z-index: 1050;
+            transform: translateX(100%);
+            transition: var(--transition-normal);
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: var(--color-success);
+        }
+
+        .toast.error {
+            border-left-color: var(--color-danger);
+        }
+
+        .toast.warning {
+            border-left-color: var(--color-warning);
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <nav class="navbar">
             <div class="nav-container">
-                <div class="logo">
+                <a href="#inicio" class="logo">
                     <i class="fas fa-leaf"></i>
                     <span>Impulso Verde</span>
-                </div>
+                </a>
                 <ul class="nav-menu">
                     <li><a href="#inicio">Inicio</a></li>
                     <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#cotizacion">Cotización</a></li>
+                    <li><a href="#calculadora">Calculadora</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
                 <div class="hamburger">
@@ -33,277 +825,129 @@
 
     <!-- Hero Section -->
     <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h1>Transforma tu Hogar con <span class="highlight">Energía Verde</span></h1>
-            <p>Soluciones sustentables en energía fotovoltaica, bombas de calor y auditorías energéticas para un futuro más limpio y eficiente.</p>
-            <div class="hero-buttons">
-                <a href="#cotizacion" class="btn-primary">Cotizar Ahora</a>
-                <a href="#servicios" class="btn-secondary">Ver Servicios</a>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Transforma tu Hogar con <span class="highlight">Energía Verde</span></h1>
+                <p>Soluciones sustentables en energía fotovoltaica, bombas de calor y auditorías energéticas para un futuro más limpio y eficiente. Calcula tu ahorro al instante.</p>
+                <div class="hero-buttons">
+                    <a href="#calculadora" class="btn-primary">
+                        <i class="fas fa-calculator"></i>
+                        Calcular Ahorro
+                    </a>
+                    <a href="#servicios" class="btn-secondary">
+                        <i class="fas fa-info-circle"></i>
+                        Ver Servicios
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Proyectos Instalados</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">90%</span>
+                        <span class="stat-label">Reducción de Consumo</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5★</span>
+                        <span class="stat-label">Calificación Promedio</span>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="hero-image">
-            <i class="fas fa-solar-panel"></i>
+            <div class="hero-visual">
+                <div class="hero-image">
+                    <i class="fas fa-solar-panel"></i>
+                </div>
+                <div class="floating-card card-1">
+                    <i class="fas fa-leaf" style="color: var(--color-primary);"></i>
+                    <div style="margin-left: 0.5rem;">
+                        <strong>100% Renovable</strong>
+                        <div style="font-size: 0.875rem; color: var(--color-gray-600);">Energía limpia</div>
+                    </div>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-piggy-bank" style="color: var(--color-success);"></i>
+                    <div style="margin-left: 0.5rem;">
+                        <strong>Ahorro Garantizado</strong>
+                        <div style="font-size: 0.875rem; color: var(--color-gray-600);">Hasta 90% menos</div>
+                    </div>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-tools" style="color: var(--color-info);"></i>
+                    <div style="margin-left: 0.5rem;">
+                        <strong>Instalación Completa</strong>
+                        <div style="font-size: 0.875rem; color: var(--color-gray-600);">Llave en mano</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="servicios" class="services">
+    <section id="servicios" class="section">
         <div class="container">
-            <h2>Nuestros Servicios</h2>
+            <div class="section-header">
+                <h2 class="section-title">Nuestros Servicios</h2>
+                <p class="section-subtitle">Ofrecemos soluciones integrales en energía renovable y eficiencia energética, adaptadas a las necesidades específicas de cada hogar</p>
+            </div>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card fade-in-up">
                     <div class="service-icon">
                         <i class="fas fa-solar-panel"></i>
                     </div>
                     <h3>Sistema Fotovoltaico</h3>
-                    <p>Paneles solares de alta eficiencia para reducir tu consumo eléctrico hasta en un 90%. Incluye instalación completa y tramitación.</p>
-                    <ul>
+                    <p>Paneles solares de alta eficiencia para reducir tu consumo eléctrico hasta en un 90%. Incluye instalación completa y tramitación legal.</p>
+                    <ul class="service-features">
                         <li>Módulos fotovoltaicos premium</li>
                         <li>Inversores de última generación</li>
-                        <li>Instalación profesional</li>
-                        <li>Tramitación completa</li>
+                        <li>Instalación profesional certificada</li>
+                        <li>Tramitación completa SEC</li>
+                        <li>Garantía de 25 años</li>
                     </ul>
                 </div>
-                <div class="service-card">
+                <div class="service-card fade-in-up">
                     <div class="service-icon">
                         <i class="fas fa-temperature-high"></i>
                     </div>
                     <h3>Bomba de Calor</h3>
                     <p>Sistemas eficientes para calefacción, agua caliente sanitaria y temperado de piscinas con la máxima eficiencia energética.</p>
-                    <ul>
-                        <li>Calefacción eficiente</li>
+                    <ul class="service-features">
+                        <li>Calefacción ultra eficiente</li>
                         <li>Agua caliente sanitaria</li>
                         <li>Temperado de piscinas</li>
-                        <li>Bajo consumo energético</li>
+                        <li>Tecnología inverter</li>
+                        <li>Control inteligente</li>
                     </ul>
                 </div>
-                <div class="service-card">
+                <div class="service-card fade-in-up">
                     <div class="service-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3>Auditoría Energética</h3>
                     <p>Análisis completo del consumo energético de tu hogar para identificar oportunidades de ahorro y eficiencia.</p>
-                    <ul>
-                        <li>Análisis de consumo</li>
+                    <ul class="service-features">
+                        <li>Análisis detallado de consumo</li>
                         <li>Identificación de pérdidas</li>
-                        <li>Recomendaciones de mejora</li>
+                        <li>Recomendaciones personalizadas</li>
                         <li>Plan de ahorro energético</li>
+                        <li>ROI proyectado</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Quote Section -->
-    <section id="cotizacion" class="quote-section">
+    <!-- Calculator Section -->
+    <section id="calculadora" class="calculator-section">
         <div class="container">
-            <h2>Solicita tu Cotización</h2>
-            <p>Completa el formulario y recibe una cotización personalizada sin compromiso</p>
-            
-            <div class="quote-form-container">
-                <!-- Service Selection -->
-                <div class="service-selector">
-                    <h3>Selecciona el servicio de tu interés:</h3>
-                    <div class="service-options">
-                        <label class="service-option">
-                            <input type="radio" name="service" value="fotovoltaico" checked>
-                            <div class="option-content">
-                                <i class="fas fa-solar-panel"></i>
-                                <span>Sistema Fotovoltaico</span>
-                            </div>
-                        </label>
-                        <label class="service-option">
-                            <input type="radio" name="service" value="bomba_calor">
-                            <div class="option-content">
-                                <i class="fas fa-temperature-high"></i>
-                                <span>Bomba de Calor</span>
-                            </div>
-                        </label>
-                        <label class="service-option">
-                            <input type="radio" name="service" value="auditoria">
-                            <div class="option-content">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Auditoría Energética</span>
-                            </div>
-                        </label>
-                    </div>
+            <div class="calculator-container">
+                <div class="calculator-header">
+                    <h2>Calculadora de Eficiencia Energética</h2>
+                    <p>Obtén una cotización personalizada al instante para tu proyecto de energía renovable</p>
                 </div>
-
-                <!-- Quote Form -->
-                <form id="quoteForm" class="quote-form">
-                    <!-- Contact Information -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-user"></i> Datos de Contacto</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nombre">Nombre Completo *</label>
-                                <input type="text" id="nombre" name="nombre" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="correo">Correo Electrónico *</label>
-                                <input type="email" id="correo" name="correo" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="direccion">Dirección (Especifica PIN en Google Maps) *</label>
-                            <input type="text" id="direccion" name="direccion" placeholder="Ej: Av. Providencia 123, Providencia, RM - Pin: https://goo.gl/maps/..." required>
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono">Teléfono de Contacto</label>
-                            <input type="tel" id="telefono" name="telefono" placeholder="+56 9 XXXX XXXX">
-                        </div>
-                    </div>
-
-                    <!-- Fotovoltaico Form -->
-                    <div id="fotovoltaico-form" class="service-form active">
-                        <div class="form-section">
-                            <h4><i class="fas fa-home"></i> Información de la Vivienda</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="tipo_vivienda">¿Vives en casa o departamento? *</label>
-                                    <select id="tipo_vivienda" name="tipo_vivienda" required>
-                                        <option value="">Selecciona una opción</option>
-                                        <option value="casa">Casa</option>
-                                        <option value="departamento">Departamento</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="habitantes">¿Cuántas personas viven en la casa? *</label>
-                                    <select id="habitantes" name="habitantes" required>
-                                        <option value="">Selecciona</option>
-                                        <option value="1">1 persona</option>
-                                        <option value="2">2 personas</option>
-                                        <option value="3">3 personas</option>
-                                        <option value="4">4 personas</option>
-                                        <option value="5">5 personas</option>
-                                        <option value="6+">6 o más personas</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="suministro_electrico">¿Cuentas con suministro eléctrico? *</label>
-                                    <select id="suministro_electrico" name="suministro_electrico" required>
-                                        <option value="">Selecciona una opción</option>
-                                        <option value="si">Sí</option>
-                                        <option value="no">No</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="suministro_agua">¿Cuentas con suministro de agua o tienes agua de pozo? *</label>
-                                    <select id="suministro_agua" name="suministro_agua" required>
-                                        <option value="">Selecciona una opción</option>
-                                        <option value="suministro">Suministro de agua</option>
-                                        <option value="pozo">Agua de pozo</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h4><i class="fas fa-bolt"></i> Información de Consumo</h4>
-                            <div class="form-group">
-                                <label for="cuenta_luz">Sube tu última cuenta de luz (opcional)</label>
-                                <input type="file" id="cuenta_luz" name="cuenta_luz" accept=".pdf,.jpg,.jpeg,.png">
-                                <small>Formato: PDF, JPG, PNG (máximo 5MB)</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="consumo_promedio">Consumo promedio mensual (kWh)</label>
-                                <input type="number" id="consumo_promedio" name="consumo_promedio" placeholder="Ej: 300">
-                                <small>Lo puedes encontrar en tu cuenta de luz</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bomba de Calor Form -->
-                    <div id="bomba_calor-form" class="service-form">
-                        <div class="form-section">
-                            <h4><i class="fas fa-temperature-high"></i> Información del Sistema</h4>
-                            <div class="form-group">
-                                <label for="uso_bomba">¿Para qué buscas la bomba de calor? *</label>
-                                <select id="uso_bomba" name="uso_bomba" required>
-                                    <option value="">Selecciona una opción</option>
-                                    <option value="calefaccion">Calefacción</option>
-                                    <option value="agua_caliente">Agua caliente sanitaria</option>
-                                    <option value="piscina">Temperado de piscina</option>
-                                    <option value="combinado">Uso combinado</option>
-                                </select>
-                            </div>
-                            
-                            <div id="piscina-details" class="conditional-fields" style="display: none;">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="superficie_piscina">Superficie de la piscina (m²) *</label>
-                                        <input type="number" id="superficie_piscina" name="superficie_piscina" placeholder="Ej: 50" step="0.1">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="profundidad_piscina">Profundidad media (metros) *</label>
-                                        <input type="number" id="profundidad_piscina" name="profundidad_piscina" placeholder="Ej: 1.5" step="0.1">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="metros_cuadrados">Metros cuadrados a climatizar</label>
-                                <input type="number" id="metros_cuadrados" name="metros_cuadrados" placeholder="Ej: 80">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Auditoría Form -->
-                    <div id="auditoria-form" class="service-form">
-                        <div class="form-section">
-                            <h4><i class="fas fa-chart-line"></i> Información para la Auditoría</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="tipo_inmueble">Tipo de inmueble *</label>
-                                    <select id="tipo_inmueble" name="tipo_inmueble" required>
-                                        <option value="">Selecciona una opción</option>
-                                        <option value="casa">Casa</option>
-                                        <option value="departamento">Departamento</option>
-                                        <option value="oficina">Oficina</option>
-                                        <option value="local_comercial">Local comercial</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="antiguedad">Antigüedad del inmueble *</label>
-                                    <select id="antiguedad" name="antiguedad" required>
-                                        <option value="">Selecciona</option>
-                                        <option value="0-5">0-5 años</option>
-                                        <option value="6-15">6-15 años</option>
-                                        <option value="16-30">16-30 años</option>
-                                        <option value="30+">Más de 30 años</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="sistemas_actuales">¿Qué sistemas de calefacción/refrigeración tienes actualmente?</label>
-                                <textarea id="sistemas_actuales" name="sistemas_actuales" rows="3" placeholder="Describe los sistemas actuales de calefacción, agua caliente, etc."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Comments -->
-                    <div class="form-section">
-                        <h4><i class="fas fa-comments"></i> Información Adicional</h4>
-                        <div class="form-group">
-                            <label for="comentarios">Comentarios o consultas adicionales</label>
-                            <textarea id="comentarios" name="comentarios" rows="4" placeholder="Cuéntanos sobre tus expectativas, dudas o cualquier información adicional que consideres relevante..."></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="form-submit">
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            Solicitar Cotización
-                        </button>
-                        <p class="form-note">
-                            <i class="fas fa-shield-alt"></i>
-                            Tus datos están protegidos. Te contactaremos en un plazo máximo de 24 horas.
-                        </p>
-                    </div>
-                </form>
+                <div id="calculator-root">
+                    <!-- React Calculator Component será montado aquí -->
+                </div>
             </div>
         </div>
     </section>
@@ -311,23 +955,26 @@
     <!-- Contact Section -->
     <section id="contacto" class="contact">
         <div class="container">
-            <h2>Contacto</h2>
+            <div class="section-header">
+                <h2 class="section-title" style="color: var(--color-white);">Contacto</h2>
+                <p class="section-subtitle" style="color: var(--color-gray-400);">¿Tienes dudas? Nuestro equipo de especialistas está listo para ayudarte a encontrar la mejor solución energética</p>
+            </div>
             <div class="contact-info">
-                <div class="contact-item">
+                <div class="contact-item fade-in-up">
                     <i class="fas fa-phone"></i>
                     <div>
                         <h4>Teléfono</h4>
                         <p>+56 9 XXXX XXXX</p>
                     </div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-item fade-in-up">
                     <i class="fas fa-envelope"></i>
                     <div>
                         <h4>Email</h4>
                         <p>contacto@impulsoverde.cl</p>
                     </div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-item fade-in-up">
                     <i class="fas fa-map-marker-alt"></i>
                     <div>
                         <h4>Oficina</h4>
@@ -343,11 +990,13 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <div class="logo">
+                    <div class="logo" style="margin-bottom: 1rem;">
                         <i class="fas fa-leaf"></i>
                         <span>Impulso Verde</span>
                     </div>
-                    <p>Transformando el futuro con energía limpia y sustentable.</p>
+                    <p style="color: var(--color-gray-400); line-height: 1.6;">
+                        Transformamos el futuro con energía limpia y sustentable. Somos especialistas en soluciones de eficiencia energética para el hogar.
+                    </p>
                 </div>
                 <div class="footer-section">
                     <h4>Servicios</h4>
@@ -355,23 +1004,84 @@
                         <li><a href="#servicios">Sistemas Fotovoltaicos</a></li>
                         <li><a href="#servicios">Bombas de Calor</a></li>
                         <li><a href="#servicios">Auditorías Energéticas</a></li>
+                        <li><a href="#calculadora">Calculadora Online</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Empresa</h4>
                     <ul>
                         <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#cotizacion">Cotización</a></li>
+                        <li><a href="#servicios">Nosotros</a></li>
+                        <li><a href="#calculadora">Proyectos</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Impulso Verde. Todos los derechos reservados.</p>
+                <p>&copy; 2025 Impulso Verde. Todos los derechos reservados. | Diseñado para un futuro sustentable.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script>
+        // Configuración global de la calculadora
+        window.CALCULATOR_CONFIG = {
+            // Componentes para sistemas fotovoltaicos CON suministro eléctrico
+            photovoltaicGrid: [
+                { name: 'Módulo Fotovoltaico', unitCost: 71458.75, unit: 'UN', required: false },
+                { name: 'Inversor', unitCost: 194385, unit: 'UN', required: false },
+                { name: 'Estructura Montaje', unitCost: 17756.25, unit: 'GL', required: false },
+                { name: 'Material Eléctrico', unitCost: 280513.75, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Conductor CC', unitCost: 183133.75, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Conductor CA', unitCost: 68181.25, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Ingeniería', unitCost: 87500, unit: 'GL', required: false },
+                { name: 'Instalación + Puesta en Marcha', unitCost: 281250, unit: 'GL', required: false },
+                { name: 'Seguridad', unitCost: 12500, unit: 'GL', required: false },
+                { name: 'Tramitación', unitCost: 250000, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Gastos Generales', unitCost: 50000, unit: 'GL', required: false }
+            ],
+            
+            // Componentes para sistemas fotovoltaicos SIN suministro eléctrico (off-grid)
+            photovoltaicOffGrid: [
+                { name: 'Módulo Fotovoltaico', unitCost: 106097.56, unit: 'UN', required: false },
+                { name: 'Inversor', unitCost: 150000, unit: 'kW', required: false },
+                { name: 'Baterías', unitCost: 212000, unit: 'kWh', required: false },
+                { name: 'Estructura Montaje', unitCost: 17756.25, unit: 'GL', required: false },
+                { name: 'Material Eléctrico', unitCost: 280513.75, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Conductor CC', unitCost: 183133.75, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Conductor CA', unitCost: 68181.25, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Ingeniería', unitCost: 320000, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Instalación + Puesta en Marcha', unitCost: 112352.89, unit: 'GL', required: false },
+                { name: 'Seguridad', unitCost: 50000, unit: 'GL', required: true, defaultQty: 1 },
+                { name: 'Gastos Generales', unitCost: 300000, unit: 'GL', required: true, defaultQty: 1 }
+            ],
+            
+            // Bombas de calor disponibles
+            heatPumps: [
+                { name: 'BOMBA DE CALOR ACS ECO 300 LITROS', cost: 2604515, use: 'agua_caliente', capacity: 300 },
+                { name: 'BOMBA DE CALOR ECO 200 LITROS', cost: 2160500, use: 'agua_caliente', capacity: 200 },
+                { name: 'BOMBA DE CALOR PISCINA POOLTEMP NEO INVERTER 7', cost: 1654100, use: 'piscina', capacity: 7 },
+                { name: 'BOMBA DE CALOR PISCINA POOLTEMP NEO INVERTER 9', cost: 1713500, use: 'piscina', capacity: 9 },
+                { name: 'BOMBA DE CALOR PISCINA POOLTEMP NEO INVERTER 13', cost: 1853900, use: 'piscina', capacity: 13 },
+                { name: 'BOMBA DE CALOR PISCINA POOLTEMP NEO INVERTER 18', cost: 2375000, use: 'piscina', capacity: 18 }
+            ],
+            
+            // Matriz de dimensionamiento según habitantes y suministro eléctrico
+            sizingMatrix: {
+                'con_suministro': {
+                    '2_or_less': { modules: 8, inverter: 5, batteries: 0 },
+                    '3_to_4': { modules: 8, inverter: 5, batteries: 0 },
+                    'more_than_4': { modules: 10, inverter: 8, batteries: 0 }
+                },
+                'sin_suministro': {
+                    '2_or_less': { modules: 10, inverter: 8, batteries: 10 },
+                    '3_to_4': { modules: 12, inverter: 10, batteries: 10 },
+                    'more_than_4': { modules: 16, inverter: 10, batteries: 15 }
+                }
+            }
+        };
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
